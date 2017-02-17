@@ -1,0 +1,5 @@
+.DS_Store
+/.idea/
+/phpunit.phar
+/phpunit.xml
+/test/asset/output.*
