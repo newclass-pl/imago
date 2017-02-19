@@ -145,7 +145,7 @@ class SpriteGenerator
              */
             $fileInfo=$prepareFile['info'];
             imagecopy($container, $resource, $x, $y, 0, 0,$fileInfo->getWidth(), $fileInfo->getHeight());
-            $cssGenerator->addFile($fileInfo->getPath(),$fileInfo->getWidth(),$fileInfo->getHeight(),$x,0);
+            $cssGenerator->addFile($fileInfo->getPath(),$fileInfo->getWidth(),$fileInfo->getHeight(),$x*-1,0);
             $x+=$fileInfo->getWidth();
         }
 
