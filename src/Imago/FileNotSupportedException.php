@@ -14,17 +14,18 @@
 namespace Imago;
 
 /**
- * Interface FilterInterface
+ * Class FileNotSupportedException
  * @package Imago
  * @author Michal Tomczak (michal.tomczak@newclass.pl)
  */
-interface FilterInterface
+class FileNotSupportedException extends \Exception
 {
-    /**
-     * @param resource $resource
-     * @param FileInfo $fileInfo
-     * @return resource
-     */
-    public function execute($resource, FileInfo $fileInfo);
 
+    /**
+     * FileNotSupportedException constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct('File not supported.');
+    }
 }

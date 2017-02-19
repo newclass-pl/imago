@@ -17,6 +17,11 @@ namespace Imago\Filter;
 use Imago\FileInfo;
 use Imago\FilterInterface;
 
+/**
+ * Class ResizeFilter
+ * @package Imago\Filter
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
+ */
 class ResizeFilter implements FilterInterface
 {
 
@@ -29,6 +34,11 @@ class ResizeFilter implements FilterInterface
      */
     private $height;
 
+    /**
+     * @param $resource
+     * @param FileInfo $fileInfo
+     * @return resource
+     */
     public function execute($resource, FileInfo $fileInfo)
     {
         $width = $this->width;

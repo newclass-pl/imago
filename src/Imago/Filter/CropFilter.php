@@ -17,9 +17,19 @@ namespace Imago\Filter;
 use Imago\FileInfo;
 use Imago\FilterInterface;
 
+/**
+ * Class CropFilter
+ * @package Imago\Filter
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
+ */
 class CropFilter implements FilterInterface
 {
 
+    /**
+     * @param resource $resource
+     * @param FileInfo $fileInfo
+     * @return resource
+     */
     public function execute($resource, FileInfo $fileInfo)
     {
         list($x1, $x2, $y1, $y2) = $this->getPoint($fileInfo, $resource);
@@ -31,15 +41,21 @@ class CropFilter implements FilterInterface
         imagealphablending($newSource, false);
         imagesavealpha($newSource, true);
         imagecopy($newSource, $resource, 0, 0, $x1, $y1, $newWidth, $newHeight);
-        var_dump($newWidth);
         $fileInfo->setWidth($newWidth);
         $fileInfo->setHeight($newHeight);
 
         return $newSource;
     }
 
+    /**
+     * @param FileInfo $fileInfo
+     * @param resource $resource
+     * @return int[]
+     */
     private function getPoint(FileInfo $fileInfo, $resource)
     {
+
+        //FIXME optimization
 
         //x1
         for ($i = 0; $i < $fileInfo->getWidth(); $i++) {

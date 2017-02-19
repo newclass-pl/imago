@@ -16,7 +16,13 @@ namespace Imago;
 
 use Imago\Filter\CropFilter;
 use Imago\Filter\ResizeFilter;
+use Imago\Output\FileOutput;
 
+/**
+ * Class Converter
+ * @package Imago
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
+ */
 class Converter
 {
     /**
@@ -38,6 +44,9 @@ class Converter
         $this->fileInfo = new FileInfo($path);
     }
 
+    /**
+     * @param int $width
+     */
     public function resizeWidth($width)
     {
         $filter = new ResizeFilter();
@@ -45,6 +54,9 @@ class Converter
         $this->filters[] = $filter;
     }
 
+    /**
+     * @param int $height
+     */
     public function resizeHeight($height)
     {
         $filter = new ResizeFilter();
@@ -52,41 +64,31 @@ class Converter
         $this->filters[] = $filter;
     }
 
+    /**
+     *
+     */
     public function autoCrop()
     {
         $filter = new CropFilter();
         $this->filters[] = $filter;
     }
 
+    /**
+     * @param string $path
+     */
     public function save($path)
     {
 
         $resource = $this->execute();
 
-        $parts = explode('.', $path);
-        $extension = end($parts);
+        $output=new FileOutput($path);
+        $output->save($resource);
 
-        $output = fopen($path, 'w');
-
-        switch ($extension) {
-            case 'jpeg':
-            case 'jpg':
-                imagejpeg($resource, $output);
-                return;
-            case 'gif':
-                imagegif($resource, $output);
-                return;
-            case 'png':
-                imagepng($resource, $output);
-                return;
-            case 'bmp':
-                imagewbmp($resource, $output);
-                return;
-        }
-
-        throw new TypeNotSupportedException($extension);
     }
 
+    /**
+     * @return resource
+     */
     private function execute()
     {
         $resource = $this->createResource();
@@ -99,6 +101,10 @@ class Converter
 
     }
 
+    /**
+     * @return resource
+     * @throws TypeNotSupportedException
+     */
     private function createResource()
     {
         switch ($this->fileInfo->getType()) {
@@ -115,6 +121,5 @@ class Converter
 
         throw new TypeNotSupportedException($this->fileInfo->getType());
     }
-
 
 }

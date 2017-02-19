@@ -13,14 +13,17 @@
 
 namespace Imago;
 
-
+/**
+ * Class FileInfo
+ * @package Imago
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
+ */
 class FileInfo
 {
     /**
      * @var int
      */
     private $width;
-
     /**
      * @var int
      */
@@ -33,7 +36,6 @@ class FileInfo
      * @var string
      */
     private $type;
-
     /**
      * @return string
      */
@@ -85,23 +87,38 @@ class FileInfo
         return $this->type;
     }
 
+    /**
+     * @param string $mime
+     * @return string
+     */
     private function detectType($mime)
     {
         return ltrim($mime, 'image/');
     }
 
+    /**
+     * @param int $width
+     * @return FileInfo
+     */
     public function setWidth($width)
     {
         $this->width = $width;
         return $this;
     }
 
+    /**
+     * @param int $height
+     * @return FileInfo
+     */
     public function setHeight($height)
     {
         $this->height = $height;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPath()
     {
         return $this->path;

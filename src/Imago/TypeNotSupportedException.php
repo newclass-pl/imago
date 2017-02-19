@@ -13,7 +13,11 @@
 
 namespace Imago;
 
-
+/**
+ * Class TypeNotSupportedException
+ * @package Imago
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
+ */
 class TypeNotSupportedException extends \Exception
 {
 

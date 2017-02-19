@@ -15,10 +15,9 @@ namespace Test;
 use Imago\Converter;
 
 /**
- * Created by PhpStorm.
- * User: mtomczak
- * Date: 17/02/2017
- * Time: 19:04
+ * Class ConverterTest
+ * @package Test
+ * @author Michal Tomczak (michal.tomczak@newclass.pl)
  */
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,10 +27,16 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     private $converter;
 
+    /**
+     *
+     */
     public function setUp(){
         $this->converter=new Converter(realpath(__DIR__).'/../asset/1.png');
     }
 
+    /**
+     *
+     */
     public function testSaveJPG(){
 
         $output=realpath(__DIR__).'/../asset/output.jpg';
@@ -44,6 +49,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testSavePNG(){
 
         $output=realpath(__DIR__).'/../asset/output.png';
@@ -56,6 +64,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testSaveBMP(){
 
         $output=realpath(__DIR__).'/../asset/output.bmp';
@@ -68,6 +79,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testSaveGIF(){
 
         $output=realpath(__DIR__).'/../asset/output.gif';
@@ -80,6 +94,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testResizeWidth(){
         $output=realpath(__DIR__).'/../asset/output.jpg';
         $this->converter->resizeWidth(2000);
@@ -90,6 +107,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testResizeHeight(){
         $output=realpath(__DIR__).'/../asset/output.jpg';
         $this->converter->resizeHeight(2000);
@@ -100,6 +120,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     *
+     */
     public function testAutoCrop(){
         $output=realpath(__DIR__).'/../asset/output.png';
         $this->converter->autoCrop();
