@@ -131,8 +131,7 @@ class CSSStyle implements StyleInterface
     {
         $code="";
 
-        $code.="    background: url('".$this->imagePath."') no-repeat\n";
-        $code.="    background-position: ".$file['x']."px ".$file['y']."\n";
+        $code.="    background: url('".$this->imagePath."') no-repeat ".$file['x']."px ".$file['y'].";\n";
         $code.="    width: ".$file['width']."px;\n";
         $code.="    height: ".$file['height']."px;\n";
         $code.="    display: inline-block;\n";
