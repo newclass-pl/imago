@@ -7,7 +7,7 @@ README
 What is Imago?
 -----------------
 
-Imago is a PHP image converter. Support filters:
+Imago is a PHP library to convert image and generate sprite. Support filters:
 - resize
 - auto crop
 
@@ -20,7 +20,8 @@ composer require newclass/imago
 
 composer install
 
-Use example
+Use converter example
+------------
 
     use Imago\Converter;
 
@@ -29,3 +30,14 @@ Use example
     $converter->resizeHeight(300);
     $converter->autoCrop();
     $converter->save('output.jpg');
+
+Use sprite generator example
+------------
+    use Imago\Filter\CropFilter;
+    use Imago\SpriteGenerator;
+
+    $spriteGenerator=new SpriteGenerator();
+    $spriteGenerator->addFile('file.jpg');
+    $spriteGenerator->addDir('dir_with_images');
+    $this->spriteGenerator->addFilter(new CropFilter());
+    $this->spriteGenerator->save('output_image.png','output.css');
