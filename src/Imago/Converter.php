@@ -44,8 +44,13 @@ class Converter
         $this->fileInfo = new FileInfo($path);
     }
 
+    public function addFilter(FilterInterface $filter){
+        $this->filters[]=$filter;
+    }
+
     /**
      * @param int $width
+     * @deprecated
      */
     public function resizeWidth($width)
     {
@@ -56,6 +61,7 @@ class Converter
 
     /**
      * @param int $height
+     * @deprecated
      */
     public function resizeHeight($height)
     {
@@ -65,7 +71,7 @@ class Converter
     }
 
     /**
-     *
+     * @deprecated
      */
     public function autoCrop()
     {

@@ -41,6 +41,7 @@ class FileOutput implements OutputInterface
 
     /**
      * @param resource $resource
+     * @return void
      * @throws TypeNotSupportedException
      */
     public function save($resource)

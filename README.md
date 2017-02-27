@@ -10,6 +10,7 @@ What is Imago?
 Imago is a PHP library to convert image and generate sprite. Support filters:
 - resize
 - auto crop
+- resize canvas
 
 Installation
 ------------
@@ -24,11 +25,13 @@ Use converter example
 ------------
 
     use Imago\Converter;
+    use Imago\Filter\ResizeFilter;
 
     $converter=new Converter('image.png');
-    $converter->resizeWidth(200);
-    $converter->resizeHeight(300);
-    $converter->autoCrop();
+    $filter=new ResizeFilter();
+    $filter->setWidth(200);
+    $filter->setHeight(300);
+    $converter->addFilter($filter);
     $converter->save('output.jpg');
 
 Use sprite generator example
