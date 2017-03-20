@@ -44,8 +44,25 @@ class Converter
         $this->fileInfo = new FileInfo($path);
     }
 
+    /**
+     * @param FilterInterface $filter
+     */
     public function addFilter(FilterInterface $filter){
         $this->filters[]=$filter;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth(){
+        return $this->fileInfo->getWidth();
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight(){
+        return $this->fileInfo->getHeight();
     }
 
     /**
@@ -56,7 +73,7 @@ class Converter
     {
         $filter = new ResizeFilter();
         $filter->setWidth($width);
-        $this->filters[] = $filter;
+        $this->addFilter($filter);
     }
 
     /**
@@ -67,7 +84,7 @@ class Converter
     {
         $filter = new ResizeFilter();
         $filter->setHeight($height);
-        $this->filters[] = $filter;
+        $this->addFilter($filter);
     }
 
     /**
@@ -76,7 +93,7 @@ class Converter
     public function autoCrop()
     {
         $filter = new CropFilter();
-        $this->filters[] = $filter;
+        $this->addFilter($filter);
     }
 
     /**

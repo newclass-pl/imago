@@ -123,6 +123,20 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
+    public function testGetWidth(){
+        $this->assertEquals(500,$this->converter->getWidth());
+    }
+
+    /**
+     *
+     */
+    public function testGetHeight(){
+        $this->assertEquals(270,$this->converter->getHeight());
+    }
+
+    /**
+     *
+     */
     public function testAutoCrop(){
         $output=realpath(__DIR__).'/../asset/output.png';
         $this->converter->autoCrop();
