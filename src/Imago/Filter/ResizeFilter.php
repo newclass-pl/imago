@@ -24,7 +24,8 @@ use Imago\FilterInterface;
  */
 class ResizeFilter implements FilterInterface
 {
-
+    const RATIO_HEIGHT = 'height';
+    const RATIO_WIDTH = 'width';
     /**
      * @var int
      */
@@ -33,29 +34,51 @@ class ResizeFilter implements FilterInterface
      * @var int
      */
     private $height;
+    /**
+     * @var string
+     */
+    private $ratio;
 
     /**
-     * @param $resource
+     * @param resource $resource
      * @param FileInfo $fileInfo
      * @return resource
+     * @throws \Exception
      */
     public function execute($resource, FileInfo $fileInfo)
     {
         $width = $this->width;
-        if ($width === null) {
-            $width = $fileInfo->getWidth();
-        }
-
         $height = $this->height;
-        if ($height === null) {
-            $height = $fileInfo->getWidth();
+
+        if($this->ratio===null){
+            if ($width === null) {
+                $width = $fileInfo->getWidth();
+            }
+
+            if ($height === null) {
+                $height = $fileInfo->getHeight();
+            }
+        }
+        else if ($this->ratio===static::RATIO_WIDTH){
+            if(!$width){
+                throw new FilterException('Required width value. Use setWidth');
+            }
+            $ratio=$fileInfo->getHeight()/$fileInfo->getWidth();
+            $height=$width*$ratio;
+        }
+        else if ($this->ratio===static::RATIO_HEIGHT){
+            if(!$height){
+                throw new FilterException('Required height value. Use setHeight');
+            }
+            $ratio=$fileInfo->getWidth()/$fileInfo->getHeight();
+            $width=$height*$ratio;
         }
 
         $container = imagecreatetruecolor($width, $height);
         imagealphablending($container, false);
         imagesavealpha($container, true);
 
-        imagecopyresized($container, $resource, 0, 0, 0, 0, $width, $height, $fileInfo->getWidth(), $fileInfo->getHeight());
+        imagecopyresampled($container, $resource, 0, 0, 0, 0, $width, $height, $fileInfo->getWidth(), $fileInfo->getHeight());
 
         $fileInfo->setWidth($width);
         $fileInfo->setHeight($height);
@@ -77,5 +100,10 @@ class ResizeFilter implements FilterInterface
     public function setHeight($height)
     {
         $this->height = $height;
+    }
+
+    public function setRatioBy($ratio)
+    {
+        $this->ratio=$ratio;
     }
 }
