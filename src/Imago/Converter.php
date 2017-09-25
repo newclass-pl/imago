@@ -107,6 +107,7 @@ class Converter
         $output=new FileOutput($path);
         $output->save($resource);
 
+        imagedestroy($resource);
     }
 
     /**

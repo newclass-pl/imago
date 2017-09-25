@@ -82,6 +82,7 @@ class ResizeFilter implements FilterInterface
 
         $fileInfo->setWidth($width);
         $fileInfo->setHeight($height);
+        imagedestroy($resource);
         return $container;
 
     }

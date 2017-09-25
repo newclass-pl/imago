@@ -43,7 +43,7 @@ class CropFilter implements FilterInterface
         imagecopy($newSource, $resource, 0, 0, $x1, $y1, $newWidth, $newHeight);
         $fileInfo->setWidth($newWidth);
         $fileInfo->setHeight($newHeight);
-
+        imagedestroy($resource);
         return $newSource;
     }
 

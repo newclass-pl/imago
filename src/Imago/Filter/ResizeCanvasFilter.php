@@ -73,7 +73,7 @@ class ResizeCanvasFilter implements FilterInterface
 
         $height = $this->height;
         if ($height === null) {
-            $height = $fileInfo->getWidth();
+            $height = $fileInfo->getHeight();
         }
 
         $container = imagecreatetruecolor($width, $height);
@@ -90,6 +90,7 @@ class ResizeCanvasFilter implements FilterInterface
 
         $fileInfo->setWidth($width);
         $fileInfo->setHeight($height);
+        imagedestroy($resource);
         return $container;
 
     }
