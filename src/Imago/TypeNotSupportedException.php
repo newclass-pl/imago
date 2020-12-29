@@ -20,13 +20,12 @@ namespace Imago;
  */
 class TypeNotSupportedException extends \Exception
 {
-
     /**
      * TypeNotSupportedException constructor.
      * @param string $type
      */
     public function __construct($type)
     {
-        parent::__construct('Type ' . $type . ' not supported.');
+        parent::__construct('Type '.$type.' not supported.');
     }
 }

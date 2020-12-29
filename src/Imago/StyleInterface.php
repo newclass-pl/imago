@@ -27,7 +27,7 @@ interface StyleInterface
      * @param int $x
      * @param int $y
      */
-    public function addFile($path,$width,$height,$x,$y);
+    public function addFile($path, $width, $height, $x, $y);
 
     /**
      * @param string $path

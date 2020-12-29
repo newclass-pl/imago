@@ -26,7 +26,7 @@ class CSSStyle implements StyleInterface
     /**
      * @var mixed[][]
      */
-    private $files=[];
+    private $files = [];
     /**
      * @var string
      */
@@ -39,30 +39,33 @@ class CSSStyle implements StyleInterface
      * @param int $x
      * @param int $y
      */
-    public function addFile($path, $width,$height, $x, $y){
-        $this->files[]=compact('path','width','height','x','y');
+    public function addFile($path, $width, $height, $x, $y)
+    {
+        $this->files[] = compact('path', 'width', 'height', 'x', 'y');
     }
 
     /**
      * @param string $path
      */
-    public function setImagePath($path){
-        $this->imagePath=$path;
+    public function setImagePath($path)
+    {
+        $this->imagePath = $path;
     }
 
     /**
      * @param string $path
      */
-    public function save($path){
-        $code='';
-        $classes=[];
-        foreach($this->files as $file){
-            $code.=$this->generateBegin($file,$classes);
-            $code.=$this->generateBody($file);
-            $code.=$this->generateEnd();
+    public function save($path)
+    {
+        $code = '';
+        $classes = [];
+        foreach ($this->files as $file) {
+            $code .= $this->generateBegin($file, $classes);
+            $code .= $this->generateBody($file);
+            $code .= $this->generateEnd();
         }
 
-        file_put_contents($path,$code);
+        file_put_contents($path, $code);
     }
 
     /**
@@ -99,11 +102,12 @@ class CSSStyle implements StyleInterface
      */
     private function getUniqueName($slug, $classes)
     {
-        foreach($classes as $class){
-            if($slug!==$class){
+        foreach ($classes as $class) {
+            if ($slug !== $class) {
                 continue;
             }
-            return $this->getUniqueName($slug.'_',$classes);
+
+            return $this->getUniqueName($slug.'_', $classes);
         }
 
         return $slug;
@@ -116,9 +120,9 @@ class CSSStyle implements StyleInterface
      */
     private function generateBegin($file, $classes)
     {
-        $fileName=pathinfo($file['path'],PATHINFO_FILENAME);
-        $className=$this->getUniqueName($this->slug($fileName),$classes);
-        $classes[]=$className;
+        $fileName = pathinfo($file['path'], PATHINFO_FILENAME);
+        $className = $this->getUniqueName($this->slug($fileName), $classes);
+        $classes[] = $className;
 
         return ".".$className."{\n";
     }
@@ -129,12 +133,12 @@ class CSSStyle implements StyleInterface
      */
     private function generateBody(array $file)
     {
-        $code="";
+        $code = "";
 
-        $code.="    background: url('".$this->imagePath."') no-repeat ".$file['x']."px ".$file['y'].";\n";
-        $code.="    width: ".$file['width']."px;\n";
-        $code.="    height: ".$file['height']."px;\n";
-        $code.="    display: inline-block;\n";
+        $code .= "    background: url('".$this->imagePath."') no-repeat ".$file['x']."px ".$file['y'].";\n";
+        $code .= "    width: ".$file['width']."px;\n";
+        $code .= "    height: ".$file['height']."px;\n";
+        $code .= "    display: inline-block;\n";
 
         return $code;
     }

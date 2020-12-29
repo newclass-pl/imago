@@ -28,15 +28,21 @@ class SpriteGenerator
     /**
      * @var string[]
      */
-    private $files=[];
+    private $files = [];
     /**
      * @var string[]
      */
-    private $supportedExtensions=['png','bmp','gif','jpg','jpeg'];
+    private $supportedExtensions = [
+        'png',
+        'bmp',
+        'gif',
+        'jpg',
+        'jpeg',
+    ];
     /**
      * @var FilterInterface[]
      */
-    private $filters=[];
+    private $filters = [];
     /**
      * @var StyleInterface
      */
@@ -45,36 +51,38 @@ class SpriteGenerator
     /**
      * @param StyleInterface $style
      */
-    public function setStyle(StyleInterface $style){
-        $this->style=$style;
+    public function setStyle(StyleInterface $style)
+    {
+        $this->style = $style;
     }
 
     /**
      * @param string $path
      * @throws FileNotSupportedException
      */
-    public function addFile($path){
-        if(!$this->isAcceptFile($path)){
+    public function addFile($path)
+    {
+        if (!$this->isAcceptFile($path)) {
             throw new FileNotSupportedException();
         }
-        $this->files[]=$path;
+        $this->files[] = $path;
     }
 
     /**
      * @param string $path
      */
-    public function addDir($path){
-        $oDir=opendir($path);
-        try{
-            while($file=readdir($oDir)){
-                $filePath=$path.'/'.$file;
-                if($file==='..' || $file==='.' || !$this->isAcceptFile($filePath)){
+    public function addDir($path)
+    {
+        $oDir = opendir($path);
+        try {
+            while ($file = readdir($oDir)) {
+                $filePath = $path.'/'.$file;
+                if ($file === '..' || $file === '.' || !$this->isAcceptFile($filePath)) {
                     continue;
                 }
-                $this->files[]=$filePath;
+                $this->files[] = $filePath;
             }
-        }
-        finally{
+        } finally {
             closedir($oDir);
         }
     }
@@ -82,12 +90,14 @@ class SpriteGenerator
     /**
      * @param string $filePath
      * @param string $cssPath
+     * @throws TypeNotSupportedException
      */
-    public function save($filePath,$cssPath){
-        $style=$this->getStyle($filePath);
-        $resource=$this->concat($style);
+    public function save($filePath, $cssPath)
+    {
+        $style = $this->getStyle($filePath);
+        $resource = $this->concat($style);
 
-        $output=new FileOutput($filePath);
+        $output = new FileOutput($filePath);
         $output->save($resource);
 
         $style->save($cssPath);
@@ -96,8 +106,9 @@ class SpriteGenerator
     /**
      * @param FilterInterface $filter
      */
-    public function addFilter(FilterInterface $filter){
-        $this->filters[]=$filter;
+    public function addFilter(FilterInterface $filter)
+    {
+        $this->filters[] = $filter;
     }
 
     /**
@@ -108,45 +119,46 @@ class SpriteGenerator
     {
         $info = getimagesize($path);
 
-        $type=ltrim($info['mime'],'image/');
+        $type = ltrim($info['mime'], 'image/');
 
-        return in_array($type,$this->supportedExtensions,true);
+        return in_array($type, $this->supportedExtensions, true);
     }
 
     /**
      * @param StyleInterface $cssGenerator
      * @return resource
+     * @throws TypeNotSupportedException
      */
     private function concat(StyleInterface $cssGenerator)
     {
 
-        $width=0;
-        $height=0;
-        $prepareFiles=[];
-        foreach($this->files as $file){
-            $info=new FileInfo($file);
-            $resource=$this->createResource($info);
-            $resource=$this->convert($resource,$info);
-            $prepareFiles[]=compact('info','resource');
+        $width = 0;
+        $height = 0;
+        $prepareFiles = [];
+        foreach ($this->files as $file) {
+            $info = new FileInfo($file);
+            $resource = $this->createResource($info);
+            $resource = $this->convert($resource, $info);
+            $prepareFiles[] = compact('info', 'resource');
 
-            $width+=$info->getWidth();
-            if($height<$info->getHeight()){
-                $height=$info->getHeight();
+            $width += $info->getWidth();
+            if ($height < $info->getHeight()) {
+                $height = $info->getHeight();
             }
         }
-        $container=$this->createContainer($width,$height);
+        $container = $this->createContainer($width, $height);
 
-        $x=0;
-        $y=0;
-        foreach($prepareFiles as $prepareFile){
-            $resource=$prepareFile['resource'];
+        $x = 0;
+        $y = 0;
+        foreach ($prepareFiles as $prepareFile) {
+            $resource = $prepareFile['resource'];
             /**
              * @var FileInfo $fileInfo
              */
-            $fileInfo=$prepareFile['info'];
-            imagecopy($container, $resource, $x, $y, 0, 0,$fileInfo->getWidth(), $fileInfo->getHeight());
-            $cssGenerator->addFile($fileInfo->getPath(),$fileInfo->getWidth(),$fileInfo->getHeight(),$x*-1,0);
-            $x+=$fileInfo->getWidth();
+            $fileInfo = $prepareFile['info'];
+            imagecopy($container, $resource, $x, $y, 0, 0, $fileInfo->getWidth(), $fileInfo->getHeight());
+            $cssGenerator->addFile($fileInfo->getPath(), $fileInfo->getWidth(), $fileInfo->getHeight(), $x * -1, 0);
+            $x += $fileInfo->getWidth();
         }
 
         return $container;
@@ -158,12 +170,14 @@ class SpriteGenerator
      * @param int $height
      * @return resource
      */
-    private function createContainer($width,$height){
+    private function createContainer($width, $height)
+    {
         $container = imagecreatetruecolor($width, $height);
         $background = imagecolorallocatealpha($container, 255, 255, 255, 127);
         imagefill($container, 0, 0, $background);
         imagealphablending($container, false);
         imagesavealpha($container, true);
+
         return $container;
     }
 
@@ -184,6 +198,8 @@ class SpriteGenerator
                 return imagecreatefromgif($fileInfo->getPath());
             case 'bmp':
                 return imagecreatefromwbmp($fileInfo->getPath());
+            case 'webp':
+                return imagecreatefromwebp($fileInfo->getPath());
         }
 
         throw new TypeNotSupportedException($fileInfo->getType());
@@ -194,11 +210,12 @@ class SpriteGenerator
      * @param FileInfo $fileInfo
      * @return resource
      */
-    private function convert($resource,FileInfo $fileInfo)
+    private function convert($resource, FileInfo $fileInfo)
     {
-        foreach($this->filters as $filter){
-            $resource=$filter->execute($resource,$fileInfo);
+        foreach ($this->filters as $filter) {
+            $resource = $filter->execute($resource, $fileInfo);
         }
+
         return $resource;
     }
 
@@ -208,12 +225,13 @@ class SpriteGenerator
      */
     private function getStyle($path)
     {
-        if($this->style){
+        if ($this->style) {
             return $this->style;
         }
 
-        $style=new CSSStyle();
+        $style = new CSSStyle();
         $style->setImagePath($path);
+
         return $style;
     }
 

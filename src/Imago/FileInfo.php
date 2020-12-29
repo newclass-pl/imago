@@ -103,6 +103,7 @@ class FileInfo
     public function setWidth($width)
     {
         $this->width = $width;
+
         return $this;
     }
 
@@ -113,6 +114,7 @@ class FileInfo
     public function setHeight($height)
     {
         $this->height = $height;
+
         return $this;
     }
 

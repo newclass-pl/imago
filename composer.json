@@ -1,22 +1,24 @@
 {
-    "name": "newclass/imago",
-    "description": "The PHP image converter.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Michal Tomczak",
-            "email": "michal.tomczak@newclass.pl"
-        }
-    ],
-    "require": {
-        "php": ">=5.5.0",
-        "ext-gd": "*"
-        },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8"
-    },
-    "autoload": {
-        "psr-4": { "Imago\\": "src/Imago" }
+  "name": "newclass/imago",
+  "description": "The PHP image converter.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michal Tomczak",
+      "email": "michal.tomczak@newclass.pl"
     }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "ext-gd": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Imago\\": "src/Imago"
+    }
+  }
 }

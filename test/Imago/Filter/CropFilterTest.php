@@ -12,10 +12,9 @@
  */
 
 namespace Test;
-use Imago\Converter;
+
 use Imago\FileInfo;
 use Imago\Filter\CropFilter;
-use Imago\Filter\ResizeCanvasFilter;
 
 /**
  * Class ConverterTest
@@ -41,27 +40,29 @@ class CropFilterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp(){
-        $this->filter=new CropFilter();
-        $this->fileInfo=new FileInfo(realpath(__DIR__).'/../../asset/1.png');
-        $this->resource=imagecreatefrompng($this->fileInfo->getPath());
+    public function setUp()
+    {
+        $this->filter = new CropFilter();
+        $this->fileInfo = new FileInfo(realpath(__DIR__).'/../../asset/1.png');
+        $this->resource = imagecreatefrompng($this->fileInfo->getPath());
     }
 
     /**
      *
      */
-    public function testWidth(){
+    public function testWidth()
+    {
 
-        $output=realpath(__DIR__).'/../../asset/output.png';
-        $resource=$this->filter->execute($this->resource,$this->fileInfo);
+        $output = realpath(__DIR__).'/../../asset/output.png';
+        $resource = $this->filter->execute($this->resource, $this->fileInfo);
 
-        $stream=fopen($output,'w');
-        imagepng($resource,$stream);
+        $stream = fopen($output, 'w');
+        imagepng($resource, $stream);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/png',$info['mime']);
-        $this->assertEquals(486,$info[0]);
-        $this->assertEquals(255,$info[1]);
+        $info = getimagesize($output);
+        $this->assertEquals('image/png', $info['mime']);
+        $this->assertEquals(486, $info[0]);
+        $this->assertEquals(255, $info[1]);
 
     }
 

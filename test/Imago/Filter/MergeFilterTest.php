@@ -12,6 +12,7 @@
  */
 
 namespace Test;
+
 use Imago\FileInfo;
 use Imago\Filter\MergeFilter;
 
@@ -39,27 +40,29 @@ class MergeFilterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp(){
-        $this->filter=new MergeFilter(realpath(__DIR__.'/../../asset/small.png'));
-        $this->fileInfo=new FileInfo(realpath(__DIR__.'/../../asset/1.png'));
-        $this->resource=imagecreatefrompng($this->fileInfo->getPath());
+    public function setUp()
+    {
+        $this->filter = new MergeFilter(realpath(__DIR__.'/../../asset/small.png'));
+        $this->fileInfo = new FileInfo(realpath(__DIR__.'/../../asset/1.png'));
+        $this->resource = imagecreatefrompng($this->fileInfo->getPath());
     }
 
     /**
      *
      */
-    public function testExecute(){
+    public function testExecute()
+    {
 
-        $output=realpath(__DIR__).'/../../asset/output.png';
-        $resource=$this->filter->execute($this->resource,$this->fileInfo);
+        $output = realpath(__DIR__).'/../../asset/output.png';
+        $resource = $this->filter->execute($this->resource, $this->fileInfo);
 
-        $stream=fopen($output,'w');
-        imagepng($resource,$stream);
+        $stream = fopen($output, 'w');
+        imagepng($resource, $stream);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/png',$info['mime']);
-        $this->assertEquals(1000,$info[0]);
-        $this->assertEquals(500,$info[1]);
+        $info = getimagesize($output);
+        $this->assertEquals('image/png', $info['mime']);
+        $this->assertEquals(500, $info[0]);
+        $this->assertEquals(270, $info[1]);
 
     }
 

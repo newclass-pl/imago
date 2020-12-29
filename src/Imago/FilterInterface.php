@@ -26,5 +26,4 @@ interface FilterInterface
      * @return resource
      */
     public function execute($resource, FileInfo $fileInfo);
-
 }

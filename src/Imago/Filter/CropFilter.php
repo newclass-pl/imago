@@ -44,6 +44,7 @@ class CropFilter implements FilterInterface
         $fileInfo->setWidth($newWidth);
         $fileInfo->setHeight($newHeight);
         imagedestroy($resource);
+
         return $newSource;
     }
 
@@ -109,7 +110,12 @@ class CropFilter implements FilterInterface
 
         $y2 = $i;
 
-        return [$x1, $x2, $y1, $y2];
+        return [
+            $x1,
+            $x2,
+            $y1,
+            $y2,
+        ];
 
     }
 }

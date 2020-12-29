@@ -47,21 +47,24 @@ class Converter
     /**
      * @param FilterInterface $filter
      */
-    public function addFilter(FilterInterface $filter){
-        $this->filters[]=$filter;
+    public function addFilter(FilterInterface $filter)
+    {
+        $this->filters[] = $filter;
     }
 
     /**
      * @return int
      */
-    public function getWidth(){
+    public function getWidth()
+    {
         return $this->fileInfo->getWidth();
     }
 
     /**
      * @return int
      */
-    public function getHeight(){
+    public function getHeight()
+    {
         return $this->fileInfo->getHeight();
     }
 
@@ -98,20 +101,19 @@ class Converter
 
     /**
      * @param string $path
+     * @throws TypeNotSupportedException
      */
     public function save($path)
     {
-
         $resource = $this->execute();
-
-        $output=new FileOutput($path);
+        $output = new FileOutput($path);
         $output->save($resource);
-
         imagedestroy($resource);
     }
 
     /**
      * @return resource
+     * @throws TypeNotSupportedException
      */
     private function execute()
     {
@@ -141,6 +143,8 @@ class Converter
                 return imagecreatefromgif($this->fileInfo->getPath());
             case 'bmp':
                 return imagecreatefromwbmp($this->fileInfo->getPath());
+            case 'webp':
+                return imagecreatefromwebp($this->fileInfo->getPath());
         }
 
         throw new TypeNotSupportedException($this->fileInfo->getType());

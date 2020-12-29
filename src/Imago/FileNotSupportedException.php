@@ -20,7 +20,6 @@ namespace Imago;
  */
 class FileNotSupportedException extends \Exception
 {
-
     /**
      * FileNotSupportedException constructor.
      */

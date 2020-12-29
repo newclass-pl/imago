@@ -12,6 +12,7 @@
  */
 
 namespace Test;
+
 use Imago\Filter\CropFilter;
 use Imago\SpriteGenerator;
 
@@ -31,8 +32,9 @@ class SpriteGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp(){
-        $this->spriteGenerator=new SpriteGenerator();
+    public function setUp()
+    {
+        $this->spriteGenerator = new SpriteGenerator();
         $this->spriteGenerator->addFile(realpath(__DIR__).'/../asset/1.png');
         $this->spriteGenerator->addDir(realpath(__DIR__).'/../asset/sprite');
     }
@@ -40,32 +42,34 @@ class SpriteGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testSave(){
+    public function testSave()
+    {
 
-        $outputImage=realpath(__DIR__).'/../asset/output_sprite.png';
-        $outputCss=realpath(__DIR__).'/../asset/output.css';
-        $this->spriteGenerator->save($outputImage,$outputCss);
+        $outputImage = realpath(__DIR__).'/../asset/output_sprite.png';
+        $outputCss = realpath(__DIR__).'/../asset/output.css';
+        $this->spriteGenerator->save($outputImage, $outputCss);
 
-        $info=getimagesize($outputImage);
-        $this->assertEquals('image/png',$info['mime']);
-        $this->assertEquals(2188,$info[0]);
-        $this->assertEquals(1024,$info[1]);
+        $info = getimagesize($outputImage);
+        $this->assertEquals('image/png', $info['mime']);
+        $this->assertEquals(2188, $info[0]);
+        $this->assertEquals(1024, $info[1]);
 
     }
 
     /**
      *
      */
-    public function testFilter(){
-        $outputImage=realpath(__DIR__).'/../asset/output_sprite.png';
-        $outputCss=realpath(__DIR__).'/../asset/output.css';
+    public function testFilter()
+    {
+        $outputImage = realpath(__DIR__).'/../asset/output_sprite.png';
+        $outputCss = realpath(__DIR__).'/../asset/output.css';
         $this->spriteGenerator->addFilter(new CropFilter());
-        $this->spriteGenerator->save($outputImage,$outputCss);
+        $this->spriteGenerator->save($outputImage, $outputCss);
 
-        $info=getimagesize($outputImage);
-        $this->assertEquals('image/png',$info['mime']);
-        $this->assertEquals(2172,$info[0]);
-        $this->assertEquals(1023,$info[1]);
+        $info = getimagesize($outputImage);
+        $this->assertEquals('image/png', $info['mime']);
+        $this->assertEquals(2172, $info[0]);
+        $this->assertEquals(1023, $info[1]);
 
     }
 

@@ -12,6 +12,7 @@
  */
 
 namespace Test;
+
 use Imago\Converter;
 
 /**
@@ -30,121 +31,146 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp(){
-        $this->converter=new Converter(realpath(__DIR__).'/../asset/1.png');
+    public function setUp()
+    {
+        $this->converter = new Converter(realpath(__DIR__).'/../asset/1.png');
     }
 
     /**
      *
      */
-    public function testSaveJPG(){
+    public function testSaveJPG()
+    {
 
-        $output=realpath(__DIR__).'/../asset/output.jpg';
+        $output = realpath(__DIR__).'/../asset/output.jpg';
         $this->converter->resizeWidth(100);
         $this->converter->resizeHeight(200);
         $this->converter->save($output);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/jpeg',$info['mime']);
+        $info = getimagesize($output);
+        $this->assertEquals('image/jpeg', $info['mime']);
 
     }
 
     /**
      *
      */
-    public function testSavePNG(){
+    public function testSavePNG()
+    {
 
-        $output=realpath(__DIR__).'/../asset/output.png';
+        $output = realpath(__DIR__).'/../asset/output.png';
         $this->converter->resizeWidth(100);
         $this->converter->resizeHeight(200);
         $this->converter->save($output);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/png',$info['mime']);
+        $info = getimagesize($output);
+        $this->assertEquals('image/png', $info['mime']);
 
     }
 
     /**
      *
      */
-    public function testSaveBMP(){
+    public function testSaveBMP()
+    {
 
-        $output=realpath(__DIR__).'/../asset/output.bmp';
+        $output = realpath(__DIR__).'/../asset/output.bmp';
         $this->converter->resizeWidth(100);
         $this->converter->resizeHeight(200);
         $this->converter->save($output);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/vnd.wap.wbmp',$info['mime']);
+        $info = getimagesize($output);
+        $this->assertEquals('image/vnd.wap.wbmp', $info['mime']);
 
     }
 
     /**
      *
      */
-    public function testSaveGIF(){
+    public function testSaveGIF()
+    {
 
-        $output=realpath(__DIR__).'/../asset/output.gif';
+        $output = realpath(__DIR__).'/../asset/output.gif';
         $this->converter->resizeWidth(100);
         $this->converter->resizeHeight(200);
         $this->converter->save($output);
 
-        $info=getimagesize($output);
-        $this->assertEquals('image/gif',$info['mime']);
+        $info = getimagesize($output);
+        $this->assertEquals('image/gif', $info['mime']);
 
     }
 
     /**
      *
      */
-    public function testResizeWidth(){
-        $output=realpath(__DIR__).'/../asset/output.jpg';
+    public function testSaveWebp()
+    {
+        $output = realpath(__DIR__).'/../asset/output.webp';
+        $this->converter->resizeWidth(100);
+        $this->converter->resizeHeight(200);
+        $this->converter->save($output);
+
+        $info = getimagesize($output);
+        $this->assertEquals('image/webp', $info['mime']);
+
+    }
+
+    /**
+     *
+     */
+    public function testResizeWidth()
+    {
+        $output = realpath(__DIR__).'/../asset/output.jpg';
         $this->converter->resizeWidth(2000);
 
         $this->converter->save($output);
-        $info=getimagesize($output);
-        $this->assertEquals(2000,$info[0]);
+        $info = getimagesize($output);
+        $this->assertEquals(2000, $info[0]);
 
     }
 
     /**
      *
      */
-    public function testResizeHeight(){
-        $output=realpath(__DIR__).'/../asset/output.jpg';
+    public function testResizeHeight()
+    {
+        $output = realpath(__DIR__).'/../asset/output.jpg';
         $this->converter->resizeHeight(2000);
 
         $this->converter->save($output);
-        $info=getimagesize($output);
-        $this->assertEquals(2000,$info[1]);
+        $info = getimagesize($output);
+        $this->assertEquals(2000, $info[1]);
 
     }
 
     /**
      *
      */
-    public function testGetWidth(){
-        $this->assertEquals(500,$this->converter->getWidth());
+    public function testGetWidth()
+    {
+        $this->assertEquals(500, $this->converter->getWidth());
     }
 
     /**
      *
      */
-    public function testGetHeight(){
-        $this->assertEquals(270,$this->converter->getHeight());
+    public function testGetHeight()
+    {
+        $this->assertEquals(270, $this->converter->getHeight());
     }
 
     /**
      *
      */
-    public function testAutoCrop(){
-        $output=realpath(__DIR__).'/../asset/output.png';
+    public function testAutoCrop()
+    {
+        $output = realpath(__DIR__).'/../asset/output.png';
         $this->converter->autoCrop();
 
         $this->converter->save($output);
-        $info=getimagesize($output);
-        $this->assertEquals(486,$info[0]);
-        $this->assertEquals(255,$info[1]);
+        $info = getimagesize($output);
+        $this->assertEquals(486, $info[0]);
+        $this->assertEquals(255, $info[1]);
 
     }
 

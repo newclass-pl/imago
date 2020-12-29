@@ -47,16 +47,16 @@ class ResizeCanvasFilter implements FilterInterface
      */
     private $positionY;
 
-    const POSITION_CENTER=1;
-    const POSITION_TOP_LEFT=2;
-    const POSITION_TOP_RIGHT=3;
-    const POSITION_BOTTOM_LEFT=4;
-    const POSITION_BOTTOM_RIGHT=5;
-    const POSITION_CUSTOM=6;
+    const POSITION_CENTER = 1;
+    const POSITION_TOP_LEFT = 2;
+    const POSITION_TOP_RIGHT = 3;
+    const POSITION_BOTTOM_LEFT = 4;
+    const POSITION_BOTTOM_RIGHT = 5;
+    const POSITION_CUSTOM = 6;
 
     public function __construct()
     {
-        $this->positionMode=self::POSITION_CENTER;
+        $this->positionMode = self::POSITION_CENTER;
     }
 
     /**
@@ -80,17 +80,18 @@ class ResizeCanvasFilter implements FilterInterface
         imagealphablending($container, false);
         imagesavealpha($container, true);
 
-        $black = imagecolorallocatealpha($container, 0, 0, 0,127);//TODO detect background color from orig image
-        imagefill($container,0,0,$black);
+        $black = imagecolorallocatealpha($container, 0, 0, 0, 127);//TODO detect background color from orig image
+        imagefill($container, 0, 0, $black);
 
 
-        list($positionX,$positionY)=$this->getPosition($fileInfo,$width,$height);
+        list($positionX, $positionY) = $this->getPosition($fileInfo, $width, $height);
 
         imagecopy($container, $resource, $positionX, $positionY, 0, 0, $fileInfo->getWidth(), $fileInfo->getHeight());
 
         $fileInfo->setWidth($width);
         $fileInfo->setHeight($height);
         imagedestroy($resource);
+
         return $container;
 
     }
@@ -99,11 +100,11 @@ class ResizeCanvasFilter implements FilterInterface
      * @param int $x
      * @param int $y
      */
-    public function setPosition($x,$y)
+    public function setPosition($x, $y)
     {
         $this->positionX = $x;
-        $this->positionY=$y;
-        $this->positionMode=self::POSITION_CUSTOM;
+        $this->positionY = $y;
+        $this->positionMode = self::POSITION_CUSTOM;
     }
 
     /**
@@ -111,7 +112,7 @@ class ResizeCanvasFilter implements FilterInterface
      */
     public function setPositionTopLeft()
     {
-        $this->positionMode=self::POSITION_TOP_LEFT;
+        $this->positionMode = self::POSITION_TOP_LEFT;
     }
 
     /**
@@ -119,7 +120,7 @@ class ResizeCanvasFilter implements FilterInterface
      */
     public function setPositionTopRight()
     {
-        $this->positionMode=self::POSITION_TOP_RIGHT;
+        $this->positionMode = self::POSITION_TOP_RIGHT;
     }
 
     /**
@@ -127,7 +128,7 @@ class ResizeCanvasFilter implements FilterInterface
      */
     public function setPositionBottomLeft()
     {
-        $this->positionMode=self::POSITION_BOTTOM_LEFT;
+        $this->positionMode = self::POSITION_BOTTOM_LEFT;
     }
 
     /**
@@ -135,7 +136,7 @@ class ResizeCanvasFilter implements FilterInterface
      */
     public function setPositionBottomRight()
     {
-        $this->positionMode=self::POSITION_BOTTOM_RIGHT;
+        $this->positionMode = self::POSITION_BOTTOM_RIGHT;
     }
 
     /**
@@ -143,14 +144,15 @@ class ResizeCanvasFilter implements FilterInterface
      */
     public function setPositionCenter()
     {
-        $this->positionMode=self::POSITION_CENTER;
+        $this->positionMode = self::POSITION_CENTER;
     }
 
     /**
      * @param int $width
      */
-    public function setWidth($width){
-        $this->width=$width;
+    public function setWidth($width)
+    {
+        $this->width = $width;
     }
 
     /**
@@ -161,33 +163,57 @@ class ResizeCanvasFilter implements FilterInterface
         $this->height = $height;
     }
 
-    private function getPosition(FileInfo $fileInfo,$width,$height)
+    private function getPosition(FileInfo $fileInfo, $width, $height)
     {
-        switch ($this->positionMode){
+        switch ($this->positionMode) {
             case self::POSITION_CENTER:
-                $x=$width/2-$fileInfo->getWidth()/2;
-                $y=$height/2-$fileInfo->getHeight()/2;
-                return [$x,$y];
+                $x = $width / 2 - $fileInfo->getWidth() / 2;
+                $y = $height / 2 - $fileInfo->getHeight() / 2;
+
+                return [
+                    $x,
+                    $y,
+                ];
             case self::POSITION_TOP_LEFT:
-                $x=0;
-                $y=0;
-                return [$x,$y];
+                $x = 0;
+                $y = 0;
+
+                return [
+                    $x,
+                    $y,
+                ];
             case self::POSITION_TOP_RIGHT:
-                $x=$width-$fileInfo->getWidth();
-                $y=0;
-                return [$x,$y];
+                $x = $width - $fileInfo->getWidth();
+                $y = 0;
+
+                return [
+                    $x,
+                    $y,
+                ];
             case self::POSITION_BOTTOM_LEFT:
-                $x=0;
-                $y=$height-$fileInfo->getHeight();
-                return [$x,$y];
+                $x = 0;
+                $y = $height - $fileInfo->getHeight();
+
+                return [
+                    $x,
+                    $y,
+                ];
             case self::POSITION_BOTTOM_RIGHT:
-                $x=$width-$fileInfo->getWidth();
-                $y=$height-$fileInfo->getHeight();
-                return [$x,$y];
+                $x = $width - $fileInfo->getWidth();
+                $y = $height - $fileInfo->getHeight();
+
+                return [
+                    $x,
+                    $y,
+                ];
             case self::POSITION_CUSTOM:
-                $x=$this->positionX;
-                $y=$this->positionY;
-                return [$x,$y];
+                $x = $this->positionX;
+                $y = $this->positionY;
+
+                return [
+                    $x,
+                    $y,
+                ];
         }
 
         throw new \Exception('Not Supported mode '.$this->positionMode);

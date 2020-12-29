@@ -46,7 +46,7 @@ class FileOutput implements OutputInterface
      */
     public function save($resource)
     {
-        $extension = pathinfo($this->path,PATHINFO_EXTENSION);
+        $extension = pathinfo($this->path, PATHINFO_EXTENSION);
 
         $output = fopen($this->path, 'w');
 
@@ -54,15 +54,23 @@ class FileOutput implements OutputInterface
             case 'jpeg':
             case 'jpg':
                 imagejpeg($resource, $output);
+
                 return;
             case 'gif':
                 imagegif($resource, $output);
+
                 return;
             case 'png':
                 imagepng($resource, $output);
+
                 return;
             case 'bmp':
                 imagewbmp($resource, $output);
+
+                return;
+            case 'webp':
+                imagewebp($resource, $output);
+
                 return;
         }
 

@@ -92,6 +92,7 @@ class MergeFilter implements FilterInterface
         imagecopy($resource, $this->resource, $x, $y, 0, 0, $width, $height);
 
         imagedestroy($this->resource);
+
         return $resource;
 
     }
